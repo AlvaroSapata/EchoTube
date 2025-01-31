@@ -15,7 +15,7 @@ const API_KEY = import.meta.env.VITE_API_KEY;
 const PlayVideo = ({ videoId }) => {
   const [apiData, setApiData] = useState(null);
   const [channelData, setChannelData] = useState(null);
-  const [commentData, setCommentData] = useState(null);
+  const [commentData, setCommentData] = useState([]);
 
   const fetchVideoData = async () => {
     const videoDetails_url = `https://youtube.googleapis.com/youtube/v3/videos?part=snippet%2CcontentDetails%2Cstatistics&id=${videoId}&key=${API_KEY}`;
@@ -38,14 +38,16 @@ const PlayVideo = ({ videoId }) => {
     await fetch(commentDetails_url)
       .then((response) => response.json())
       .then((data) => setCommentData(data.items));
-  }
+  };
 
   useEffect(() => {
     fetchVideoData();
   }, []);
 
   useEffect(() => {
-    fetchChannelData();
+    if (apiData?.snippet?.channelId) {
+      fetchChannelData();
+    }
   }, [apiData]);
 
   useEffect(() => {
@@ -57,10 +59,10 @@ const PlayVideo = ({ videoId }) => {
       {/* <video src={video1} controls autoPlay muted></video> */}
       <iframe
         src={`https://www.youtube.com/embed/${videoId}?autoplay=1`}
-        frameborder="0"
+        frameBorder="0"
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-        referrerpolicy="strict-origin-when-cross-origin"
-        allowfullscreen
+        referrerPolicy="strict-origin-when-cross-origin"
+        allowFullScreen
       ></iframe>
       <h3>{apiData?.snippet?.title || "Title Here"}</h3>
 
@@ -103,7 +105,11 @@ const PlayVideo = ({ videoId }) => {
         />
         <div>
           <p>{apiData?.snippet?.channelTitle || ""}</p>
-          <span>{channelData?.statistics?.subscriberCount ? value_converter(channelData.statistics.subscriberCount) : "1M"}</span>
+          <span>
+            {channelData?.statistics?.subscriberCount
+              ? value_converter(channelData.statistics.subscriberCount)
+              : "1M"}
+          </span>
         </div>
 
         <button>Subscribe</button>
@@ -116,26 +122,29 @@ const PlayVideo = ({ videoId }) => {
             ? value_converter(apiData.statistics.commentCount)
             : 158}
         </h4>
-        
-        <div className="comment">
-          <img src={user_profie} alt="" />
-          <div>
-            <h3>
-              John Smith <span>14 hours ago</span>
-            </h3>
-            <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer
-              justo nisl, convallis lacinia dolor ut, iaculis porta odio. Nulla
-              facilisi. Pellentesque interdum mauris dignissim, tempor tellus
-              nec, maximus mauris.
-            </p>
-            <div className="comment-action">
-              <img src={like} alt="" />
-              <span>17</span>
-              <img src={dislike} alt="" />
+        {commentData.map((item, index) => {
+          return (
+            <div className="comment" key={index}>
+              <img src={user_profie} alt="" />
+              <div>
+                <h3>
+                  John Smith <span>14 hours ago</span>
+                </h3>
+                <p>
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                  Integer justo nisl, convallis lacinia dolor ut, iaculis porta
+                  odio. Nulla facilisi. Pellentesque interdum mauris dignissim,
+                  tempor tellus nec, maximus mauris.
+                </p>
+                <div className="comment-action">
+                  <img src={like} alt="" />
+                  <span>17</span>
+                  <img src={dislike} alt="" />
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
+          );
+        })}
       </div>
     </div>
   );
