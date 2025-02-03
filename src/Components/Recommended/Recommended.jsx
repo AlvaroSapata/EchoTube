@@ -1,84 +1,86 @@
-import React from 'react'
-import './Recommended.css'
-import thumbnail1 from '../../Assets/thumbnail1.png'
-import thumbnail2 from '../../Assets/thumbnail2.png'
-import thumbnail3 from '../../Assets/thumbnail3.png'
-import thumbnail4 from '../../Assets/thumbnail4.png'
-import thumbnail5 from '../../Assets/thumbnail5.png'
-import thumbnail6 from '../../Assets/thumbnail6.png'
-import thumbnail7 from '../../Assets/thumbnail7.png'
-import thumbnail8 from '../../Assets/thumbnail8.png'
+import React, { useEffect, useState } from "react";
+import "./Recommended.css";
+import { value_converter } from "../../data";
+import { Link } from "react-router-dom";
+const API_KEY = import.meta.env.VITE_API_KEY;
 
-const Recommended = () => {
+const Recommended = ({ categoryId }) => {
+  const [apiData, setApiData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  const relatedVideo_API = `https://youtube.googleapis.com/youtube/v3/videos?part=snippet,contentDetails,statistics&chart=mostPopular&maxResults=46&regionCode=US&videoCategoryId=${categoryId}&key=${API_KEY}`;
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        console.log("Category ID:", categoryId);
+        console.log("Fetching data from:", relatedVideo_API);
+        const res = await fetch(relatedVideo_API);
+        if (!res.ok) throw new Error(`HTTP error! Status: ${res.status}`);
+
+        const data = await res.json();
+        console.log("API Response:", data);
+
+        if (data.items) {
+          setApiData(data.items);
+        } else {
+          throw new Error("No items found in API response");
+        }
+      } catch (err) {
+        console.error("Error fetching recommended videos:", err.message);
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [categoryId]);
+
+  if (loading) return <p>Loading recommended videos...</p>;
+  if (error) return <p>Error: {error}</p>;
+  if (!apiData) return <p>No recommended videos found.</p>;
+
   return (
-    <div className='recommended'>
-    <div className="side-video-list">
-        <img src={thumbnail1} alt="" />
-        <div className="vid-info">
-            <h4>Best Channel to lear Web Development</h4>
-            <p>Codedev</p>
-            <p>235k Views</p>
-        </div>
+    <div className="recommended">
+      {apiData.map((item, index) => {
+        return (
+          <Link
+            to={`/video/${item.snippet.categoryId}/${item.id}`}
+            className="side-video-list"
+            key={index}
+          >
+            <img src={item.snippet.thumbnails.medium.url} alt="" />
+            <div className="vid-info">
+              <h4>{item.snippet.title}</h4>
+              <p>{item.snippet.channelTitle}</p>
+              <p>{value_converter(item.statistics.viewCount)} views</p>
+            </div>
+          </Link>
+        );
+      })}
     </div>
-    <div className="side-video-list">
-        <img src={thumbnail2} alt="" />
-        <div className="vid-info">
-            <h4>Best Channel to lear Web Development</h4>
-            <p>Codedev</p>
-            <p>235k Views</p>
-        </div>
-    </div>
-    <div className="side-video-list">
-        <img src={thumbnail3} alt="" />
-        <div className="vid-info">
-            <h4>Best Channel to lear Web Development</h4>
-            <p>Codedev</p>
-            <p>235k Views</p>
-        </div>
-    </div>
-    <div className="side-video-list">
-        <img src={thumbnail4} alt="" />
-        <div className="vid-info">
-            <h4>Best Channel to lear Web Development</h4>
-            <p>Codedev</p>
-            <p>235k Views</p>
-        </div>
-    </div>
-    <div className="side-video-list">
-        <img src={thumbnail5} alt="" />
-        <div className="vid-info">
-            <h4>Best Channel to lear Web Development</h4>
-            <p>Codedev</p>
-            <p>235k Views</p>
-        </div>
-    </div>
-    <div className="side-video-list">
-        <img src={thumbnail6} alt="" />
-        <div className="vid-info">
-            <h4>Best Channel to lear Web Development</h4>
-            <p>Codedev</p>
-            <p>235k Views</p>
-        </div>
-    </div>
-    <div className="side-video-list">
-        <img src={thumbnail7} alt="" />
-        <div className="vid-info">
-            <h4>Best Channel to lear Web Development</h4>
-            <p>Codedev</p>
-            <p>235k Views</p>
-        </div>
-    </div>
-    <div className="side-video-list">
-        <img src={thumbnail8} alt="" />
-        <div className="vid-info">
-            <h4>Best Channel to lear Web Development</h4>
-            <p>Codedev</p>
-            <p>235k Views</p>
-        </div>
-    </div>
-    
-    </div>
-  )
-}
+  );
+};
 
-export default Recommended
+export default Recommended;
+
+{
+  /* <div key={index} className="side-video-list">
+          <Link
+            to={`/video/${item.snippet?.categoryId}/${item.id}`}
+            onClick={() => window.scrollTo(0, 0)}
+            className="small-thumbnail"
+          >
+            <img src={item.snippet?.thumbnails?.medium?.url || "fallback-image.jpg"} alt="Video Thumbnail" />
+          </Link>
+          <div className="vid-info">
+            <h4>{item.snippet?.title || "No Title"}</h4>
+            <p>{item.snippet?.channelTitle || "Unknown Channel"}</p>
+            <p className="recommended-views">
+              {item.statistics?.viewCount ? value_converter(item.statistics.viewCount) : "0"} Views
+            </p>
+          </div>
+        </div> */
+}
