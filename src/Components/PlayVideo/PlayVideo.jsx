@@ -9,10 +9,14 @@ import jack from "../../assets/jack.png";
 import user_profie from "../../assets/user_profile.jpg";
 import { value_converter } from "../../data";
 import moment from "moment/moment";
+import { useParams } from "react-router-dom";
 
 const API_KEY = import.meta.env.VITE_API_KEY;
 
-const PlayVideo = ({ videoId }) => {
+const PlayVideo = () => {
+
+  const {videoId} = useParams(); 
+
   const [apiData, setApiData] = useState(null);
   const [channelData, setChannelData] = useState(null);
   const [commentData, setCommentData] = useState([]);
@@ -48,7 +52,7 @@ const PlayVideo = ({ videoId }) => {
   useEffect(() => {
     fetchVideoData();
     window.scrollTo(0, 0);
-  }, []);
+  }, [videoId]);
 
   useEffect(() => {
     if (apiData) fetchOtherData();

@@ -3,3 +3,4 @@
 * Que solo cargue x comentarios y si no que aparezcca un boton para cargar mas comentarios
 * Poner Barra de busqueda
 * Manejar estados loading
+* Añadir barra de search
