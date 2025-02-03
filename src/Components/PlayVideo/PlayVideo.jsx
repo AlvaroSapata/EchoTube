@@ -18,81 +18,74 @@ const PlayVideo = ({ videoId }) => {
   const [commentData, setCommentData] = useState([]);
 
   const fetchVideoData = async () => {
-    const videoDetails_url = `https://youtube.googleapis.com/youtube/v3/videos?part=snippet%2CcontentDetails%2Cstatistics&id=${videoId}&key=${API_KEY}`;
+    // Fetching Video Data
+    const videoDetails_url = `https://youtube.googleapis.com/youtube/v3/videos?part=snippet%2CcontentDetails%2Cstatistics&key=${API_KEY}&id=${videoId}`;
     await fetch(videoDetails_url)
-      .then((response) => response.json())
+      .then((res) => res.json())
       .then((data) => setApiData(data.items[0]));
   };
 
-  const fetchChannelData = async () => {
-    const channelDetails_url = `https://youtube.googleapis.com/youtube/v3/channels?part=snippet%2CcontentDetails%2Cstatistics&id=${apiData.snippet.channelId}&key=${API_KEY}`;
+  const fetchOtherData = async () => {
+    if (!apiData || !apiData.snippet) return; // Prevent execution if apiData is null
 
-    await fetch(channelDetails_url)
-      .then((response) => response.json())
-      .then((data) => setChannelData(data.items[0]));
-  };
+    try {
+      // Fetching Channel Data
+      const channelLogo_url = `https://youtube.googleapis.com/youtube/v3/channels?part=snippet%2CcontentDetails%2Cstatistics&id=${apiData.snippet.channelId}&key=${API_KEY}`;
+      const channelRes = await fetch(channelLogo_url);
+      const channelData = await channelRes.json();
+      setChannelData(channelData.items?.[0] || null);
 
-  const fetchCommentData = async () => {
-    const commentDetails_url = `https://youtube.googleapis.com/youtube/v3/commentThreads?part=snippet%2Creplies&videoId=${videoId}&key=${API_KEY}`;
-
-    await fetch(commentDetails_url)
-      .then((response) => response.json())
-      .then((data) => setCommentData(data.items));
-  };
-
-  useEffect(() => {
-    fetchVideoData();
-  }, []);
-
-  useEffect(() => {
-    if (apiData?.snippet?.channelId) {
-      fetchChannelData();
+      // Fetching Comment Data
+      const videoComment_url = `https://www.googleapis.com/youtube/v3/commentThreads?textFormat=plainText&part=snippet&maxResults=50&key=${API_KEY}&videoId=${videoId}`;
+      const commentRes = await fetch(videoComment_url);
+      const commentData = await commentRes.json();
+      setCommentData(commentData.items || []);
+    } catch (error) {
+      console.error("Error fetching other data:", error);
     }
-  }, [apiData]);
+  };
 
   useEffect(() => {
     fetchVideoData();
+    window.scrollTo(0, 0);
   }, []);
+
+  useEffect(() => {
+    if (apiData) fetchOtherData();
+  }, [apiData]); // This will only run when apiData is valid
 
   return (
     <div className="play-video">
-      {/* <video src={video1} controls autoPlay muted></video> */}
       <iframe
-        src={`https://www.youtube.com/embed/${videoId}?autoplay=1`}
+        src={`https://www.youtube.com/embed/${videoId}?&autoplay=1`}
         frameBorder="0"
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-        referrerPolicy="strict-origin-when-cross-origin"
         allowFullScreen
       ></iframe>
-      <h3>{apiData?.snippet?.title || "Title Here"}</h3>
-
+      {/* Best YouTube Channel To Learn Web Development  */}
+      <h3>{apiData ? apiData.snippet.title : "Title Here"}</h3>
       <div className="play-video-info">
         <p>
-          {apiData?.statistics?.viewCount
-            ? value_converter(apiData.statistics.viewCount)
-            : "16k"}{" "}
-          Views &bull;
-          {apiData?.snippet?.publishedAt
+          {apiData ? value_converter(apiData.statistics.viewCount) : 1525} Views
+          &bull;{" "}
+          {apiData
             ? moment(apiData.snippet.publishedAt).fromNow()
-            : "some time ago"}
+            : "2 days ago"}
         </p>
-
         <div>
           <span>
-            <img src={like} alt="like" />
-            {apiData?.statistics?.likeCount
-              ? value_converter(apiData.statistics.likeCount)
-              : 17}
+            <img src={like} alt="" />
+            {apiData ? value_converter(apiData.statistics.likeCount) : 125}
           </span>
           <span>
-            <img src={dislike} alt="dislike" />
+            <img src={dislike} alt="" />2
           </span>
           <span>
-            <img src={share} alt="share" />
+            <img src={share} alt="" />
             Share
           </span>
           <span>
-            <img src={save} alt="save" />
+            <img src={save} alt="" />
             Save
           </span>
         </div>
@@ -100,45 +93,56 @@ const PlayVideo = ({ videoId }) => {
       <hr />
       <div className="publisher">
         <img
-          src={channelData?.snippet?.thumbnails?.default?.url || ""}
+          src={
+            channelData
+              ? value_converter(channelData.snippet.thumbnails.default.url)
+              : ""
+          }
           alt=""
         />
         <div>
-          <p>{apiData?.snippet?.channelTitle || ""}</p>
+          <p>{apiData ? apiData.snippet.channelTitle : ""}</p>
           <span>
-            {channelData?.statistics?.subscriberCount
+            {channelData
               ? value_converter(channelData.statistics.subscriberCount)
-              : "1M"}
+              : "1M"}{" "}
+            Subscribers
           </span>
         </div>
-
-        <button>Subscribe</button>
+        <button type="button">Subscribe</button>
       </div>
       <div className="vid-description">
-        <p>{apiData?.snippet?.description || ""}</p>
+        <p>
+          {apiData
+            ? apiData.snippet.description.slice(0, 250)
+            : "Description Here"}
+        </p>
         <hr />
         <h4>
-          {apiData?.statistics?.commentCount
-            ? value_converter(apiData.statistics.commentCount)
-            : 158}
+          {apiData ? value_converter(apiData.statistics.commentCount) : 130}{" "}
+          Comments
         </h4>
+
         {commentData.map((item, index) => {
           return (
-            <div className="comment" key={index}>
-              <img src={user_profie} alt="" />
+            <div key={index} className="comment">
+              <img
+                src={item.snippet.topLevelComment.snippet.authorProfileImageUrl}
+                alt=""
+              />
               <div>
                 <h3>
-                  John Smith <span>14 hours ago</span>
+                  {item.snippet.topLevelComment.snippet.authorDisplayName}{" "}
+                  <span>
+                    {moment(
+                      item.snippet.topLevelComment.snippet.publishedAt
+                    ).fromNow()}
+                  </span>
                 </h3>
-                <p>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                  Integer justo nisl, convallis lacinia dolor ut, iaculis porta
-                  odio. Nulla facilisi. Pellentesque interdum mauris dignissim,
-                  tempor tellus nec, maximus mauris.
-                </p>
+                <p>{item.snippet.topLevelComment.snippet.textDisplay}</p>
                 <div className="comment-action">
                   <img src={like} alt="" />
-                  <span>17</span>
+                  <span>{item.snippet.topLevelComment.snippet.likeCount}</span>
                   <img src={dislike} alt="" />
                 </div>
               </div>
