@@ -7,6 +7,7 @@ import upload_icon from "../../assets/upload_compressed.png";
 import more_icon from "../../assets/more.png";
 import notification_icon from "../../assets/notification.png";
 import profile_icon from "../../assets/jack.png";
+import erase_icon from "../../assets/close.png";
 import { Link } from "react-router-dom";
 
 const Navbar = ({ setSidebar, setSearchQuery }) => {
@@ -16,6 +17,11 @@ const Navbar = ({ setSidebar, setSearchQuery }) => {
     if (event.key === "Enter") {
       setSearchQuery(query);
     }
+  };
+
+  const clearSearch = () => {
+    setQuery(""); // Limpiar el input
+    setSearchQuery(""); // Limpiar la búsqueda
   };
 
   return (
@@ -38,9 +44,22 @@ const Navbar = ({ setSidebar, setSearchQuery }) => {
             placeholder="Search"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            onKeyDown={handleSearch} // Checks Enter
+            onKeyDown={handleSearch} // Detect Enter
           />
-          <img src={search_icon} alt="Search icon" onClick={() => setSearchQuery(query)} />
+          <img
+            src={search_icon}
+            alt="Search icon"
+            onClick={() => setSearchQuery(query)}
+          />
+          {/* Mostrar "X" solo si hay texto en la barra */}
+          {query && (
+            <img
+              src={erase_icon} // Usa un icono de "X" o algo similar
+              alt="Clear icon"
+              onClick={clearSearch}
+              className="clear-icon"
+            />
+          )}
         </div>
       </div>
       <div className="nav-right flex-div">

@@ -66,7 +66,6 @@ const PlayVideo = () => {
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
         allowFullScreen
       ></iframe>
-      {/* Best YouTube Channel To Learn Web Development  */}
       <h3>{apiData ? apiData.snippet.title : "Title Here"}</h3>
       <div className="play-video-info">
         <p>

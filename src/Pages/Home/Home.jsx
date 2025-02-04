@@ -10,7 +10,7 @@ export const Home = ({ sidebar, searchQuery, setSearchQuery }) => {
     console.log("Cambiando categoría a:", newCategory);
     setCategory(newCategory);
     setSearchQuery(""); // Clean search query
-  };
+  }
 
   return (
     <>
