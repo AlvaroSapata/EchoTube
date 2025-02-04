@@ -6,21 +6,21 @@ import moment from "moment/moment";
 
 const API_KEY = import.meta.env.VITE_API_KEY;
 
-const Feed = ({ category, searchQuery }) => {
+const Feed = ({ category, searchQuery, regionCode }) => {
   const [data, setData] = useState([]);
 
   const fetchData = async () => {
     let url;
   
-    // If searchQuery is empty or only has spaces, use the current category
+    // Si searchQuery está vacío o solo tiene espacios, usa la categoría actual
     const currentCategory = (searchQuery?.trim() === "") ? category : 0;
   
-    console.log("Fetching data for category:", currentCategory);  // Checks the current category
+    console.log("Fetching data for category:", currentCategory);  // Verifica la categoría actual
   
     if (searchQuery?.trim() !== "") {
       url = `https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=25&q=${searchQuery}&key=${API_KEY}`;
     } else {
-      url = `https://youtube.googleapis.com/youtube/v3/videos?part=snippet%2CcontentDetails%2Cstatistics&chart=mostPopular&maxResults=50&regionCode=US&videoCategoryId=${currentCategory}&key=${API_KEY}`;
+      url = `https://youtube.googleapis.com/youtube/v3/videos?part=snippet%2CcontentDetails%2Cstatistics&chart=mostPopular&maxResults=50&regionCode=${regionCode}&videoCategoryId=${currentCategory}&key=${API_KEY}`;
     }
   
     try {
@@ -31,11 +31,10 @@ const Feed = ({ category, searchQuery }) => {
       console.error("Error fetching data:", error);
     }
   };
-  
 
   useEffect(() => {
     fetchData();
-  }, [category, searchQuery]);
+  }, [category, searchQuery, regionCode]);  // Asegúrate de incluir regionCode en las dependencias
 
   return (
     <div className="feed">

@@ -14,7 +14,7 @@ nav {
 }
 
 .nav-left .logo {
-  width: 130px;
+  width: 90px;
 }
 .nav-middle .search-box {
   border: 1px solid #ccc;
@@ -46,6 +46,49 @@ nav {
   width: 16px; 
   height: 16px;
 }
+
+.country-flag-container {
+  cursor: pointer;
+  
+}
+
+.country-flag {
+  width: 20px; /* Ajusta el tamaño de la bandera */
+  height: 25px; /* Ajusta el tamaño de la bandera */
+  border: solid 1px #000000;
+  border-radius: 50%;
+}
+
+.country-select-dropdown {
+  position: absolute;
+  top: 30px; /* Ajusta la posición según el diseño */
+  left:-2px;
+  background-color: white;
+  border-radius: 0 0 5px 5px;
+  /* border: 1px solid #ccc; */
+  padding: 5px;
+  display: flex;
+  flex-direction: column;
+  z-index: 10;
+}
+
+.country-select-dropdown img {
+  width: 20px; /* Ajusta el tamaño de las banderas del dropdown */
+  height: 20px;
+  cursor: pointer;
+  margin-bottom: 5px;
+}
+
+.country-flag-display{
+  display: flex;
+  /* align-items: center; */
+}
+
+.nav-right {
+  position: relative; /* Esto permite posicionar el dropdown correctamente */
+}
+
+
 
 @media (max-width: 900px){
   .menu-icon{

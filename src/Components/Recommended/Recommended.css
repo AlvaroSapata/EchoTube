@@ -17,6 +17,9 @@
   font-size: 13px;
   margin-bottom: 5px;
 }
+.recommended img{
+  border-radius: 5px;
+}
 
 @media (max-width: 900px){
   .recommended{

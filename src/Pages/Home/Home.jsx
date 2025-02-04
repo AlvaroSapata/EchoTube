@@ -3,7 +3,7 @@ import "./Home.css";
 import Sidebar from "../../Components/Sidebar/Sidebar";
 import Feed from "../../Components/Feed/Feed";
 
-export const Home = ({ sidebar, searchQuery, setSearchQuery }) => {
+export const Home = ({ sidebar, searchQuery, setSearchQuery,regionCode  }) => {
   const [category, setCategory] = useState(0);
 
   const handleCategoryChange = (newCategory) => {
@@ -20,7 +20,7 @@ export const Home = ({ sidebar, searchQuery, setSearchQuery }) => {
         setCategory={handleCategoryChange}
       />
       <div className={`container ${sidebar ? "" : "large-container"}`}>
-        <Feed category={category} searchQuery={searchQuery} />
+        <Feed category={category} searchQuery={searchQuery} regionCode={regionCode}/>
       </div>
     </>
   );

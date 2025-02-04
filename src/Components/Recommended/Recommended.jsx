@@ -62,22 +62,3 @@ const Recommended = ({ categoryId }) => {
 };
 
 export default Recommended;
-
-{
-  /* <div key={index} className="side-video-list">
-          <Link
-            to={`/video/${item.snippet?.categoryId}/${item.id}`}
-            onClick={() => window.scrollTo(0, 0)}
-            className="small-thumbnail"
-          >
-            <img src={item.snippet?.thumbnails?.medium?.url || "fallback-image.jpg"} alt="Video Thumbnail" />
-          </Link>
-          <div className="vid-info">
-            <h4>{item.snippet?.title || "No Title"}</h4>
-            <p>{item.snippet?.channelTitle || "Unknown Channel"}</p>
-            <p className="recommended-views">
-              {item.statistics?.viewCount ? value_converter(item.statistics.viewCount) : "0"} Views
-            </p>
-          </div>
-        </div> */
-}
