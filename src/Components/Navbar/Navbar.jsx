@@ -163,9 +163,9 @@ const Navbar = ({ setSidebar, setSearchQuery, setRegionCode }) => {
           </div>
         )}
 
-        <img src={upload_icon} alt="Upload icon" />
-        <img src={more_icon} alt="More icon" />
-        <img src={notification_icon} alt="Notification icon" />
+        <img className="icons" src={upload_icon} alt="Upload icon" />
+        <img className="icons" src={more_icon} alt="More icon" />
+        <img className="icons" src={notification_icon} alt="Notification icon" />
         <img src={profile_icon} className="user-icon" alt="Profile icon" />
       </div>
     </nav>

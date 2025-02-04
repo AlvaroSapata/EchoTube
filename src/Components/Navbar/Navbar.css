@@ -94,12 +94,16 @@ nav {
   .menu-icon{
       display: none;
   }
-  .nav-right img{
+  /* .nav-right img{
       display: none;
-  }
-  .nav-right .user-icon{
+  } */
+   .nav-right .icons{
+      display: none;
+  } 
+  .nav-right .user-icon, .nav-right .country-flag-container{
       display: block;
       width: 30px;
+      margin-right: 20px;
   }
   .logo{
       width: 90px;
@@ -110,5 +114,5 @@ nav {
   .nav-middle .search-box input{
       width: 100px;
    }
-  
+
 }
