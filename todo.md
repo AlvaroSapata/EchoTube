@@ -4,3 +4,4 @@
 * Poner Barra de busqueda
 * Manejar estados loading
 * Añadir barra de search
+* Cambiar la seleccion de categorias a la parte superior en dispositivos moviles

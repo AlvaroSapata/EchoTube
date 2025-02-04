@@ -56,8 +56,27 @@
     padding-bottom: 2px;
     border-bottom: 3px solid red;
 }
-@media (max-width: 900px){
+ @media (max-width: 900px){
     .sidebar{
         display: none;
     }
+} 
+/* @media (max-width: 900px){
+  
+    .subscribed-list{
+        display: none;
+    }
+    hr{
+        display: none;
+    }
+    .sidebar p{
+        display: none;
+    }
+.shortcut-links{
+    display: flex;
+    flex-direction: row;
 }
+.sidebar{
+    background-color: #5a5a5a;
+}
+} */
