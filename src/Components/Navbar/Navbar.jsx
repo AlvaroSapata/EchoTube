@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "./Navbar.css";
 import menu_icon from "../../assets/menu.png";
 import logo from "../../assets/logo_compressed.png";
@@ -9,25 +9,38 @@ import notification_icon from "../../assets/notification.png";
 import profile_icon from "../../assets/jack.png";
 import { Link } from "react-router-dom";
 
-const Navbar = ({ setSidebar }) => {
+const Navbar = ({ setSidebar, setSearchQuery }) => {
+  const [query, setQuery] = useState("");
+
+  const handleSearch = (event) => {
+    if (event.key === "Enter") {
+      setSearchQuery(query);
+    }
+  };
+
   return (
     <nav className="flex-div">
       <div className="nav-left flex-div">
         <img
           className="menu-icon"
-          onClick={() => setSidebar((prev) => (prev === false ? true : false))}
+          onClick={() => setSidebar((prev) => !prev)}
           src={menu_icon}
           alt="Menu icon"
         />
         <Link to={"/"}>
-          {" "}
           <img className="logo" src={logo} alt="Logo" />
         </Link>
       </div>
       <div className="nav-middle flex-div">
         <div className="search-box flex-div">
-          <input type="text" placeholder="Search" />
-          <img src={search_icon} alt="Search icon" />
+          <input
+            type="text"
+            placeholder="Search"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            onKeyDown={handleSearch} // Checks Enter
+          />
+          <img src={search_icon} alt="Search icon" onClick={() => setSearchQuery(query)} />
         </div>
       </div>
       <div className="nav-right flex-div">

@@ -1,21 +1,26 @@
-import React from "react";
+import React, { useState } from "react";
 import "./Home.css";
 import Sidebar from "../../Components/Sidebar/Sidebar";
 import Feed from "../../Components/Feed/Feed";
-import { useState } from "react";
 
-export const Home = ({ sidebar }) => {
+export const Home = ({ sidebar, searchQuery, setSearchQuery }) => {
   const [category, setCategory] = useState(0);
+
+  const handleCategoryChange = (newCategory) => {
+    console.log("Cambiando categoría a:", newCategory);
+    setCategory(newCategory);
+    setSearchQuery(""); // Clean search query
+  };
 
   return (
     <>
       <Sidebar
         sidebar={sidebar}
         category={category}
-        setCategory={setCategory}
+        setCategory={handleCategoryChange}
       />
       <div className={`container ${sidebar ? "" : "large-container"}`}>
-        <Feed category={category}/>
+        <Feed category={category} searchQuery={searchQuery} />
       </div>
     </>
   );

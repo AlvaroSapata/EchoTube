@@ -14,13 +14,10 @@ const Recommended = ({ categoryId }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        console.log("Category ID:", categoryId);
-        console.log("Fetching data from:", relatedVideo_API);
         const res = await fetch(relatedVideo_API);
         if (!res.ok) throw new Error(`HTTP error! Status: ${res.status}`);
 
         const data = await res.json();
-        console.log("API Response:", data);
 
         if (data.items) {
           setApiData(data.items);
