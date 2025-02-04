@@ -3,8 +3,6 @@ import "./Sidebar.css";
 import home from "../../assets/home.png";
 import game_icon from "../../assets/game_icon.png";
 import automobiles from "../../assets/automobiles.png";
-import explore from "../../assets/explore.png";
-import subscriprion from "../../assets/subscriprion.png";
 import sports from "../../assets/sports.png";
 import entertainment from "../../assets/entertainment.png";
 import tech from "../../assets/tech.png";
