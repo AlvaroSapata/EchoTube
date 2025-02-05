@@ -43,7 +43,9 @@ To install and run this project on your local machine, follow these steps:
 
 4. **Create a .env file in the root directory and add your YouTube API key:**
 
-VITE_API_KEY=your_youtube_api_key
+   ```bash
+   VITE_API_KEY=your_youtube_api_key
+   ```
 
 5. **Start the application in development mode:**
 
@@ -78,15 +80,20 @@ VITE_API_KEY=your_youtube_api_key
 
 1. **Select a category:** Use the `Sidebar` component to choose the category you want to watch. The selected category will update the source from wich it loads the most popular videos.
 
-![Home Screen](public/Usage1.png)
+![Category Feed](public/snap1.png)
 
 2. **Search bar:** Use the `Searchbar` to find specific content. This will disable the category videos until you press home or delete the text.
 
-![Game Screen](public/Usage2.png)
+![Marvel Search](public/snap2.png)
 
 3. **Region Filter:** You can change the region to select the videos belonging to that region.
 
+![Spanish Filter](public/snap3.png)
+
 4. **Recommended Videos:** Whenever you click a specific video, some related recomendations will be shown.
+
+![Recommended Videos](public/snap4.png)
+![Details](public/snap5.png)
 
 ## ToDo
 
