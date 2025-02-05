@@ -82,15 +82,15 @@ To install and run this project on your local machine, follow these steps:
 
 ![Category Feed](public/snap1.png)
 
-2. **Search bar:** Use the `Searchbar` to find specific content. This will disable the category videos until you press home or delete the text.
+2. **Search bar:** Use the `Searchbar` to find specific content. This will disable the category videos until you press home or delete the text. (Marvel Search in image)
 
 ![Marvel Search](public/snap2.png)
 
-3. **Region Filter:** You can change the region to select the videos belonging to that region.
+3. **Region Filter:** You can change the region to select the videos belonging to that region. (Region changed to Spain in image)
 
 ![Spanish Filter](public/snap3.png)
 
-4. **Recommended Videos:** Whenever you click a specific video, some related recomendations will be shown.
+4. **Recommended Videos:** Whenever you click a specific video, some related recomendations will be shown. (Video details and recommendations in image)
 
 ![Recommended Videos](public/snap4.png)
 ![Details](public/snap5.png)
@@ -147,6 +147,5 @@ For any inquiries, please contact [alvaromfdv@gmail.com](mailto:alvaromfdv@gmail
 ## References
 
 - [React Documentation](https://reactjs.org/docs/getting-started.html)
-- [Material-UI Documentation](https://mui.com/getting-started/installation/)
-- [TypeScript Documentation](https://www.typescriptlang.org/docs/)
-- [Zustand Documentation](https://github.com/pmndrs/zustand)
+- [Youtube API data](https://developers.google.com/youtube/v3/getting-started)
+- [Moment Documentation](https://www.npmjs.com/package/moment)
